@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from .Api import Poll, Talk, channel, call
+from .Api import Poll, Talk, channel, call, shop
 from akad.ttypes import *
 import requests, tempfile, random, shutil, json, unicodedata, base64
 
@@ -432,6 +432,29 @@ class LINE:
 
   def inviteIntoGroupCall(self, chatId, contactIds=[], mediaType=MediaType.AUDIO):
         return self.call.inviteIntoGroupCall(chatId, contactIds, mediaType)
+    
+  """Shop Service"""
+  
+  def getProduct(self, packageID):
+        return self.shop.getProduct(packageID)
+    
+  def getActivePurchases(self, start, size):
+        return self.shop.getNewlyReleasedPackages(start, size)
+
+  def getDownloads(self):
+        return self.shop.getDownloads()
+
+  def getCoinProducts(self, appStoreCode):
+        return self.shop.getCoinProducts(appStoreCode)
+
+  def getEventPackages(self, start, size):
+        return self.shop.getEventPackages(start, size)
+
+  def getPopularPackages(self, start, size):
+        return self.shop.getPopularPackages(start, size)
+
+  def notifyDownloaded(self, packageId):
+        return self.shop.notifyDownloaded(packageId)
 
   def __validate(self, mail, passwd, cert, token, qr, www):
     if mail is not None and passwd is not None and cert is None:
