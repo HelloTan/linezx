@@ -3,10 +3,10 @@ from tcr.ttypes import ApplicationType
 import re
 
 class Config():
-    LINE_HOST_DOMAIN            = 'https://gd2.line.naver.jp'
+    LINE_HOST_DOMAIN            = 'https://legy-jp.line.naver.jp'
     LINE_OBS_DOMAIN             = 'https://obs-sg.line-apps.com'
-    LINE_TIMELINE_API           = 'https://gd2.line.naver.jp/mh/api'
-    LINE_TIMELINE_MH            = 'https://gd2.line.naver.jp/mh'
+    LINE_TIMELINE_API           = 'https://legy-jp.line.naver.jp/mh/api'
+    LINE_TIMELINE_MH            = 'https://legy-jp.line.naver.jp/mh'
 
     LINE_LOGIN_QUERY_PATH       = '/api/v4p/rs'
     LINE_AUTH_QUERY_PATH        = '/api/v4/TalkService.do'
@@ -27,14 +27,14 @@ class Config():
         'LINE_SERVICES': '1459630796'
     }
 
-    APP_TYPE    = ApplicationType._VALUES_TO_NAMES[400]
-    APP_VER     = '7.18.1'
+    APP_TYPE    = ApplicationType.WINPHONE
+    APP_VER     = '8.8.1'
     CARRIER     = '51089, 1-0'
-    SYSTEM_NAME = 'WaifuBOT'
+    SYSTEM_NAME = 'WaifuBOT' # I not like wibu, you know -_-
     SYSTEM_VER  = '11.2.5'
     IP_ADDR     = '8.8.8.8'
     EMAIL_REGEX = re.compile(r"[^@]+@[^@]+\.[^@]+")
 
     def __init__(self):
         self.APP_NAME = '%s\t%s\t%s\t%s' % (self.APP_TYPE, self.APP_VER, self.SYSTEM_NAME, self.SYSTEM_VER)
-        self.USER_AGENT = 'WaifuBOT/%s' % self.APP_VER
+        self.USER_AGENT = 'LineBot/%s' % self.APP_VER
