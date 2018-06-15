@@ -27,9 +27,9 @@ class LINE:
       callback = def_callback
     resp = self.__validate(mail,passwd,cert,token,qr,www)
     if resp == 1:
-      self.Talk.login(mail, passwd, callback=callback)
+      self.Talk.login(mail, passwd)
     elif resp == 2:
-      self.Talk.login(mail,passwd,cert, callback=callback)
+      self.Talk.login(mail, passwd, cert)
     elif resp == 3:
       self.Talk.TokenLogin(token)
     elif resp == 4:
