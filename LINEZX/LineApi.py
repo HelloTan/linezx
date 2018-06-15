@@ -18,6 +18,7 @@ class LINE:
 
 
   def __init__(self):
+    Config.__init__(self)
     self.Talk = Talk()
     self._session = requests.session()
 
@@ -189,7 +190,7 @@ class LINE:
         data = {
             'params': json.dumps(params)
         }
-        r = self.post_content('https://obs-sg.line-apps.com/talk/m/upload.nhn', data=data, files=files)
+        r = self.post_content(self.LINE_OBS_DOMAIN + '/talk/m/upload.nhn', data=data, files=files)
         if r.status_code != 201:
             raise Exception('Upload image failure.')
         #r.content
@@ -221,7 +222,7 @@ class LINE:
         data = {
             'params': json.dumps(params)
         }
-        r = self.post_content('https://obs-sg.line-apps.com/talk/m/upload.nhn', data=data, files=files)
+        r = self.post_content(self.LINE_OBS_DOMAIN + '/talk/m/upload.nhn', data=data, files=files)
         if r.status_code != 201:
             raise Exception('Upload video failure.')
         #r.content
@@ -360,6 +361,7 @@ class LINE:
 
   def updateGroup(self, groupObject):
         return self.Talk.client.updateGroup(0, groupObject)
+    
   def findGroupByTicket(self,ticketId):
         return self.Talk.client.findGroupByTicket(0,ticketId)
 
