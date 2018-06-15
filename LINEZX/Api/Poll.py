@@ -2,8 +2,8 @@
 from thrift.transport import THttpClient
 from thrift.protocol import TCompactProtocol
 from .config import Config
-from tcr import TalkService
-from tcr.ttypes import *
+from akad import TalkService
+from akad.ttypes import *
 
 class Poll(Config):
 
@@ -26,9 +26,9 @@ class Poll(Config):
     
     while True:
       try:
-        Ops = self.client.fetchOps(self.rev, 50, 0, 0)
-      except EOFError:
-        raise Exception("It might be wrong revision\n" + str(self.rev))
+        Ops = self.client.fetchOperations(self.rev, 50)
+      except Exception as error:
+        print(error)
 
       for Op in Ops:
         if (Op.type != OpType.END_OF_OPERATION):
