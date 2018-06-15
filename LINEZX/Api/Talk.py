@@ -41,6 +41,9 @@ class LineCallback(object):
 
     def QrUrl(self, url, showQr=True):
         self.callback(url)
+        
+    def PinVerified(self, pin):
+        self.callback("Masukan kode pin berikut '" + pin + "' di smartphone anda")
 
     def default(self, str):
         self.callback(str)
