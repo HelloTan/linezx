@@ -23,7 +23,7 @@ def createTransport(path=None, update_headers=None, service=None):
     Headers = {
         'User-Agent': con.USER_AGENT,
         'X-Line-Application': con.APP_NAME,
-        "x-lal": "ja-US_US",
+        "x-lal": "in_ID",
     }
     Headers.update({"x-lpqs" : path})
     if(update_headers is not None):
@@ -91,7 +91,7 @@ class Talk(Config):
         header = {
                 'User-Agent': self.USER_AGENT,
                 'X-Line-Application': self.APP_NAME,
-                "x-lal" : "ja-US_US",
+                "x-lal" : "in_ID",
                 "x-lpqs" : self.LINE_LOGIN_QUERY_PATH,
                 'X-Line-Access': qr.verifier
         }
