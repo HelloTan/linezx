@@ -4,8 +4,8 @@ import requests
 from thrift.transport import THttpClient
 from thrift.protocol import TCompactProtocol
 from .config import Config
-from tcr import ChannelService
-from tcr.ttypes import *
+from akad import ChannelService
+from akad.ttypes import *
 import tempfile
 
 class Channel(Config):
