@@ -2,8 +2,8 @@
 from thrift.transport import THttpClient
 from thrift.protocol import TCompactProtocol
 from .config import Config
-from tcr import CallService
-from tcr.ttypes import *
+from akad import CallService
+from akad.ttypes import *
 
 class Call(Config):
     client = None
