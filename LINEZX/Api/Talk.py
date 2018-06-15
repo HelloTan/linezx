@@ -4,9 +4,9 @@ import json, requests, rsa
 from thrift.transport import THttpClient
 from thrift.protocol import TCompactProtocol
 from .config import Config
-from tcr import TalkService
-from tcr import AuthService
-from tcr.ttypes import *
+from akad import TalkService
+from akad import AuthService
+from akad.ttypes import *
 con = Config()
 _session = requests.session()
 
