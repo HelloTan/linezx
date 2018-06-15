@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from tcr.ttypes import ApplicationType
+from akad.ttypes import ApplicationType
 import re
 
 class Config():
@@ -17,6 +17,7 @@ class Config():
     LINE_CERTIFICATE_PATH       = '/Q'
     LINE_CHAN_QUERY_PATH        = '/CH4'
     LINE_SQUARE_QUERY_PATH      = '/SQS1'
+    LINE_SHOP_QUERY_PATH        = '/SHOP4'
 
     CHANNEL_ID = {
         'LINE_TIMELINE': '1341209950',
