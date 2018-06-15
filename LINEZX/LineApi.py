@@ -129,7 +129,7 @@ class LINE:
 
   def downloadObjMsg(self,messageId):
     path = '%s/LineZX-%i.data' % (tempfile.gettempdir(),random.randint(0,9))
-    url = "https://obs-sg.line-apps.com/talk/m/download.nhn?oid="+messageId
+    url = self.LINE_OBS_DOMAIN + '/talk/m/download.nhn?oid=' + messageId
     r = self.get_content(url)
     if r.status_code == 200:
       with open(path,'w') as f:
