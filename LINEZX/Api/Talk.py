@@ -4,8 +4,7 @@ import json, requests, rsa
 from thrift.transport import THttpClient
 from thrift.protocol import TCompactProtocol
 from .config import Config
-from akad import TalkService
-from akad import AuthService
+from akad import TalkService, AuthService
 from akad.ttypes import *
 con = Config()
 _session = requests.session()
@@ -81,6 +80,54 @@ class Talk(Config):
     self.authToken = authToken
     self.headers = headers
     self.transport.path = self.LINE_API_QUERY_PATH_FIR
+    
+  def login(self, mail, passwd, cert=None):
+    self.userid = mail
+    self.password = passwd
+    self.certificate = cert
+
+    self.transport.path = self.LINE_AUTH_QUERY_PATH
+    r = self.client.getRSAKeyInfo(IdentityProvider.LINE)
+
+    data = (chr(len(r.sessionKey)) + r.sessionKey
+            + chr(len(self.userid)) + self.userid
+            + chr(len(self.password)) + self.password)
+
+    pub = rsa.PublicKey(int(r.nvalue, 16), int(r.evalue, 16))
+    cipher = rsa.encrypt(data, pub).encode('hex')
+
+    login_request = loginRequest()
+    login_request.type = 0
+    login_request.identityProvider = IdentityProvider.LINE
+    login_request.identifier = r.keynm
+    login_request.password = cipher
+    login_request.keepLoggedIn = 1
+    login_request.accessLocation = self.IP_ADDR
+    login_request.systemName = self.SYSTEM_NAME
+    login_request.certificate = self.certificate
+    login_request.e2eeVersion = 1
+
+    self.transport.path = self.login_query_path
+    r = self.client.loginZ(login_request)
+
+    if r.type == LoginResultType.SUCCESS:
+        self.TokenLogin(r.authToken)
+        print(r.certificate)
+    elif r.type == LoginResultType.REQUIRE_QRCODE:
+        pass
+    elif r.type == LoginResultType.REQUIRE_DEVICE_CONFIRM:
+        tos = LineCallback(defaultCallback)
+        tos.PinVerified(r.pinCode)
+        verifier = requests.get(url=self.LINE_HOST_DOMAIN + self.LINE_CERTIFICATE_PATH, headers={"X-Line-Access": r.verifier}).json()["result"]["verifier"].encode("utf-8")
+        verifier_request = loginRequest()
+        verifier_request.type = 1
+        verifier_request.verifier = verifier
+        verifier_request.e2eeVersion = 1
+        r = self.client.loginZ(verifier_request)
+        self.TokenLogin(r.authToken)
+        print("Your certificate " + r.certificate)
+    else:
+        print("Eror {}".format(r.type))
 
   def qrLogin(self,keepLoggedIn=True, systemName=None):
         if systemName is None:
