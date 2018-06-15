@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from .Api import Poll, Talk, channel, call
-from tcr.ttypes import *
+from akad.ttypes import *
 import requests,tempfile,random,shutil,json,unicodedata
 
 def def_callback(str):
