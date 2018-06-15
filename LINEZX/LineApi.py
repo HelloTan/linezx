@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from .Api import Poll, Talk, channel, call
 from akad.ttypes import *
-import requests,tempfile,random,shutil,json,unicodedata
+import requests, tempfile, random, shutil, json, unicodedata, base64
 
 def def_callback(str):
     print(str)
@@ -51,10 +51,12 @@ class LINE:
     self.token = self.channel.token
     self.obs_token = self.channel.obs_token
     self.refresh_token = self.channel.refresh_token
-
     self.call = call.Call(self.authToken)
-
-
+    
+  def obs64(self, url):
+    hasil = base64.b64encode(url.encode())
+    return hasil.decode('utf-8')
+    
   """User"""
 
   def getProfile(self):
