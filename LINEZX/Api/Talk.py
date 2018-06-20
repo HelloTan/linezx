@@ -42,7 +42,7 @@ class LineCallback(object):
         self.callback(url)
         
     def PinVerified(self, pin):
-        self.callback("Masukan kode pin berikut '" + pin + "' di smartphone anda")
+        self.callback("Masukan kode pin berikut {} di smartphone anda".format(pin))
 
     def default(self, str):
         self.callback(str)
