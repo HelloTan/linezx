@@ -126,8 +126,9 @@ class Talk(Config):
         verifier_request.verifier = verifier
         verifier_request.e2eeVersion = 1
         r = client.loginZ(verifier_request)
-        self.TokenLogin(r.authToken)
-        print("Your certificate " + r.certificate)
+        #self.TokenLogin(r.authToken)
+        #print("Your certificate " + r.certificate)
+        self.ready('{},{}'.format(r.certificate, r.authToken))
     else:
         print("Eror {}".format(r.type))
 
