@@ -113,8 +113,9 @@ class Talk(Config):
     r = client.loginZ(login_request)
 
     if r.type == LoginResultType.SUCCESS:
-        self.TokenLogin(r.authToken)
-        print(r.certificate)
+        #self.TokenLogin(r.authToken)
+        #print(r.certificate)
+        self.ready('{},{}'.format(r.certificate, r.authToken))
     elif r.type == LoginResultType.REQUIRE_QRCODE:
         pass
     elif r.type == LoginResultType.REQUIRE_DEVICE_CONFIRM:
