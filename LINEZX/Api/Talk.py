@@ -96,7 +96,7 @@ class Talk(Config):
     pub = rsa.PublicKey(int(r.nvalue, 16), int(r.evalue, 16))
     cipher = rsa.encrypt(data, pub).encode('hex')
 
-    login_request = loginRequest()
+    login_request = LoginRequest()
     login_request.type = 0
     login_request.identityProvider = IdentityProvider.LINE
     login_request.identifier = r.keynm
@@ -106,9 +106,11 @@ class Talk(Config):
     login_request.systemName = self.SYSTEM_NAME
     login_request.certificate = self.certificate
     login_request.e2eeVersion = 1
+    
+    client = createTransport(self.LINE_LOGIN_QUERY_PATH, None, AuthService.Client)
 
-    self.transport.path = self.login_query_path
-    r = self.client.loginZ(login_request)
+    self.transport.path = self.LINE_LOGIN_QUERY_PATH
+    r = client.loginZ(login_request)
 
     if r.type == LoginResultType.SUCCESS:
         self.TokenLogin(r.authToken)
@@ -118,12 +120,12 @@ class Talk(Config):
     elif r.type == LoginResultType.REQUIRE_DEVICE_CONFIRM:
         tos = LineCallback(defaultCallback)
         tos.PinVerified(r.pinCode)
-        verifier = requests.get(url=self.LINE_HOST_DOMAIN + self.LINE_CERTIFICATE_PATH, headers={"X-Line-Access": r.verifier}).json()["result"]["verifier"].encode("utf-8")
-        verifier_request = loginRequest()
+        verifier = _session.get(url=self.LINE_HOST_DOMAIN + self.LINE_CERTIFICATE_PATH, headers={"X-Line-Access": r.verifier}).json()["result"]["verifier"].encode("utf-8")
+        verifier_request = LoginRequest()
         verifier_request.type = 1
         verifier_request.verifier = verifier
         verifier_request.e2eeVersion = 1
-        r = self.client.loginZ(verifier_request)
+        r = client.loginZ(verifier_request)
         self.TokenLogin(r.authToken)
         print("Your certificate " + r.certificate)
     else:
