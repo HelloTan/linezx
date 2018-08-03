@@ -55,14 +55,14 @@ class Channel(Config):
             "contents" : { "text" : text }
         }
 
-        r = requests.post(self.LINE_HOST_DOMAIN + "/mh/api/v39/post/create.json",
+        r = requests.post(self.LINE_HOST_DOMAIN + "/mh/api/v44/post/create.json",
             headers = header,
             data = json.dumps(payload)
         )
 
         return r.json()
 
-    def postPhoto(self,text,path):
+    def postPhoto(self, text, path):
         header = {
             "Content-Type": "application/json",
             "User-Agent" : self.USER_AGENT,
@@ -73,9 +73,9 @@ class Channel(Config):
         payload = {
             "postInfo" : { "readPermission" : { "type" : "ALL" } },
             "sourceType" : "TIMELINE",
-            "contents" : { "text" : text ,"media" :  [{u'objectId': u'F57144CF9ECC4AD2E162E68554D1A8BD1a1ab0t04ff07f6'}]}
+            "contents" : { "text" : text, "media" :  [{u'objectId': u'F57144CF9ECC4AD2E162E68554D1A8BD1a1ab0t04ff07f6'}]}
         }
-        r = requests.post(self.LINE_HOST_DOMAIN + "/mh/api/v39/post/create.json",
+        r = requests.post(self.LINE_HOST_DOMAIN + "/mh/api/v44/post/create.json",
             headers = header,
             data = json.dumps(payload)
         )
@@ -96,7 +96,7 @@ class Channel(Config):
             "actorId" : mid
         }
 
-        r = requests.post(self.LINE_HOST_DOMAIN + "/mh/api/v39/like/create.json?homeId=" + mid,
+        r = requests.post(self.LINE_HOST_DOMAIN + "/mh/api/v44/like/create.json?homeId=" + mid,
             headers = header,
             data = json.dumps(payload)
         )
@@ -116,7 +116,7 @@ class Channel(Config):
             "actorId" : mid
         }
 
-        r = requests.post(self.LINE_HOST_DOMAIN + "/mh/api/v39/comment/create.json?homeId=" + mid,
+        r = requests.post(self.LINE_HOST_DOMAIN + "/mh/api/v44/comment/create.json?homeId=" + mid,
             headers = header,
             data = json.dumps(payload)
         )
@@ -131,10 +131,11 @@ class Channel(Config):
             "x-lct" : self.channel_access_token,
         }
 
-        r = requests.get(self.LINE_HOST_DOMAIN + "/tl/mapi/v39/activities?postLimit=" + str(limit),
+        r = requests.get(self.LINE_HOST_DOMAIN + "/tl/mapi/v44/activities?postLimit=" + str(limit),
             headers = header
         )
         return r.json()
+    
     def getAlbum(self, gid):
 
         header = {
@@ -148,7 +149,8 @@ class Channel(Config):
             headers = header
         )
         return r.json()
-    def changeAlbumName(self,gid,name,albumId):
+    
+    def changeAlbumName(self, gid, name, albumId):
         header = {
             "Content-Type" : "application/json",
             "X-Line-Mid" : self.mid,
@@ -163,7 +165,8 @@ class Channel(Config):
             data = json.dumps(payload),
         )
         return r.json()
-    def deleteAlbum(self,gid,albumId):
+    
+    def deleteAlbum(self, gid, albumId):
         header = {
             "Content-Type" : "application/json",
             "X-Line-Mid" : self.mid,
@@ -174,6 +177,7 @@ class Channel(Config):
             headers = header,
             )
         return r.json()
+    
     def getNote(self,gid, commentLimit, likeLimit):
         header = {
             "Content-Type" : "application/json",
@@ -181,7 +185,7 @@ class Channel(Config):
             "x-lct": self.channel_access_token,
 
         }
-        r = requests.get(self.LINE_HOST_DOMAIN + "/mh/api/v39/post/list.json?homeId=" + gid + "&commentLimit=" + commentLimit + "&sourceType=TALKROOM&likeLimit=" + likeLimit,
+        r = requests.get(self.LINE_HOST_DOMAIN + "/mh/api/v44/post/list.json?homeId=" + gid + "&commentLimit=" + commentLimit + "&sourceType=TALKROOM&likeLimit=" + likeLimit,
             headers = header
         )
         return r.json()
@@ -197,7 +201,7 @@ class Channel(Config):
                    "sourceType":"GROUPHOME",
                    "contents":{"text":text}
                    }
-        r = requests.post(self.LINE_HOST_DOMAIN + "/mh/api/v39/post/create.json",
+        r = requests.post(self.LINE_HOST_DOMAIN + "/mh/api/v44/post/create.json",
             headers = header,
             data = json.dumps(payload)
             )
@@ -216,7 +220,7 @@ class Channel(Config):
         )
         return r.json()
 
-    def getHome(self,mid):
+    def getHome(self, mid):
         header = {
                     "Content-Type": "application/json",
                     "User-Agent" : self.USER_AGENT,
@@ -224,15 +228,17 @@ class Channel(Config):
                     "x-lct" : self.channel_access_token,
         }
 
-        r = requests.get(self.LINE_HOST_DOMAIN + "/mh/api/v39/post/list.json?homeId=" + mid + "&commentLimit=2&sourceType=LINE_PROFILE_COVER&likeLimit=6",
+        r = requests.get(self.LINE_HOST_DOMAIN + "/mh/api/v44/post/list.json?homeId=" + mid + "&commentLimit=2&sourceType=LINE_PROFILE_COVER&likeLimit=6",
         headers = header
         )
         return r.json()
-    def getCover(self,mid):
+    
+    def getCover(self, mid):
         h = self.getHome(mid)
         objId = h["result"]["homeInfo"]["objectId"]
         return "http://dl.profile.line-cdn.net/myhome/c/download.nhn?userid=" + mid + "&oid=" + objId
-    def createAlbum(self,gid,name):
+    
+    def createAlbum(self, gid, name):
         header = {
                     "Content-Type": "application/json",
                     "User-Agent" : self.USER_AGENT,
@@ -249,7 +255,7 @@ class Channel(Config):
         )
         return r.json()
 
-    def createAlbum2(self,gid,name,path,oid):
+    def createAlbum2(self, gid, name, path, oid):
         header = {
                     "Content-Type": "application/json",
                     "User-Agent" : self.USER_AGENT,
@@ -264,4 +270,4 @@ class Channel(Config):
             headers = header,
             data = json.dumps(payload)
         )
-      
+        return r.json()
