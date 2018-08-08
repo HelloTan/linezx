@@ -7,11 +7,10 @@ import time, random, sys, json, codecs, threading, glob, re, string, os, request
 cl = LINEZX.LINE()
 cl.login(qr=True)
 cl.loginResult()
-
 #cl.login(token='TOKEN MU')
 #cl.loginResult()
 
-def bot(op):
+def BOT(op):
     try:
         if op.type == 0:
             return
@@ -22,7 +21,7 @@ def bot(op):
             to = msg.to	
             if pesan is None:
                 return
-            if "sp" == pesan.lower():
+            if pesan.lower() == "sp":
                 start = time.time()
                 cl.sendText(to, "Testing....")
                 elapsed_time = time.time() - start
@@ -31,4 +30,4 @@ def bot(op):
         print(error)
 	
 while True:
-    bot(cl.stream())
+    BOT(cl.polling())
