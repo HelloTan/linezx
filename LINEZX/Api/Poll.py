@@ -22,8 +22,7 @@ class Poll(Config):
     self.transport.path = self.LINE_POLL_QUERY_PATH_FIR
     self.transport.open()
 
-  def polling(self):
-    
+  def polling(self):    
     while True:
       Ops = self.client.fetchOperations(self.rev, 50)
       for Op in Ops:
