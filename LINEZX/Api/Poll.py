@@ -22,14 +22,10 @@ class Poll(Config):
     self.transport.path = self.LINE_POLL_QUERY_PATH_FIR
     self.transport.open()
 
-  def stream(self):
+  def polling(self):
     
     while True:
-      try:
-        Ops = self.client.fetchOperations(self.rev, 50)
-      except Exception as error:
-        print(error)
-
+      Ops = self.client.fetchOperations(self.rev, 50)
       for Op in Ops:
         if (Op.type != OpType.END_OF_OPERATION):
           self.rev = max(self.rev, Op.revision)
